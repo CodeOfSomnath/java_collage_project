@@ -26,7 +26,11 @@ public class TicTacToe {
     private String[] playersIcon = new String[]{"o", "x"};
     int currentPlayer = 0; // 0 for first player and 1 for second player
     
-    private String[][] board = new String[3][3];
+    private String[][] board = new String[][]{
+        {"1", "2", "3"},
+        {"4", "5", "6"},
+        {"7", "8", "9"}
+    };
     private int[][] win_positions = new int[][]{
         {0, 1, 2},
         {3, 4, 5},
@@ -61,6 +65,7 @@ public class TicTacToe {
     }
     public void updateBoard(int playerId, int position) {
         int x, y;
+        position = position-1;
 
         // first player or second player decided by playerId
         x = Math.floorDiv(position, 3);
@@ -70,9 +75,10 @@ public class TicTacToe {
     }
     public void printBoard()  {
         for (int i = 0; i < board.length; i++) {
-            System.out.printf(" x | x | x ");
+            System.out.printf(" %s | %s | %s ", board[i][0], board[i][1], board[i][2]);
+            System.out.println("\n-------------");
         }
-        System.out.println("\n-------------");
+        
     }
 
     public void printRules() {
@@ -108,7 +114,8 @@ public class TicTacToe {
                 // TODO: print a outro
                 System.exit(0);
             } else {
-                ins.updateBoard(inp, inp);
+                ins.updateBoard(ins.getCurrentPlayer(), inp);
+                ins.updateCurrentPlayer();
             }
 
         }
