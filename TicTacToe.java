@@ -153,7 +153,7 @@ public class TicTacToe {
             inp = sc.nextInt();
 
             if (inp == 0) {
-                // TODO: print a outro
+                System.out.println("Thank you for playing our game!");
                 System.exit(0);
             } else {
                 ins.updateBoard(ins.getCurrentPlayer(), inp);
