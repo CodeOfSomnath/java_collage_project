@@ -19,10 +19,14 @@
  */
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TicTacToe {
 
+    private String winnerName = null;
+    private int winenerId = 0;
     private String[] playersIcon = new String[]{"o", "x"};
     int currentPlayer = 0; // 0 for first player and 1 for second player
     
@@ -55,13 +59,46 @@ public class TicTacToe {
     }
 
     public boolean isGameOver()  { 
-        
+        ArrayList<Integer> oPositions = new ArrayList<>();
+        ArrayList<Integer> xPositions = new ArrayList<>();
+        int position;
+
+        for (int x = 0; x < board.length; x++) {
+            for (int y = 0; y < board[0].length; y++) {
+                position = (x * 3) + y;
+                if (board[x][y].equals("o")) {
+                    oPositions.add(position);
+                } else if (board[x][y].equals("x")) {
+                    xPositions.add(position);
+                }
+            }
+        }
+
+        for (int i = 0; i < win_positions.length; i++) {
+            if (oPositions.containsAll(Arrays.stream(win_positions[i]).boxed().toList())) {
+                winnerName = "Player 1";
+                // this.winenerId = 0;
+                return true;
+            } else if (xPositions.containsAll(Arrays.stream(win_positions[i]).boxed().toList())) {
+                winnerName = "Player 2";
+                this.winenerId = 1;
+                return true;
+            }
+        }
+
         return false;
     }
     public void printWinner() {
-        String winnerName = null;
-        System.out.printf("Congras! %s win the match\n", winnerName);
-        board = new String[3][3];
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (!(board[i][j].equals("o") || board[i][j].equals("x"))) {
+                    board[i][j] = " ";
+                }
+            }
+        }
+        this.printBoard();
+        System.out.printf("Congras! %s (%s) win the match\n", winnerName, playersIcon[winenerId]);
     }
     public void updateBoard(int playerId, int position) {
         int x, y;
@@ -74,11 +111,16 @@ public class TicTacToe {
         
     }
     public void printBoard()  {
+        int count = 0;
+        System.out.println();
         for (int i = 0; i < board.length; i++) {
             System.out.printf(" %s | %s | %s ", board[i][0], board[i][1], board[i][2]);
-            System.out.println("\n-------------");
+            if (count < 2) {
+                System.out.println("\n-------------");
+                count++;
+            }
         }
-        
+        System.out.println("\n");
     }
 
     public void printRules() {
